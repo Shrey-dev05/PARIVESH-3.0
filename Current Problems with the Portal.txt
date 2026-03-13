@@ -1,0 +1,72 @@
+Current Problems with the Portal:
+
+1. Very Poor UI/UX
+
+Navigation is confusing.
+Users must know:
+project ID
+file number
+exact project name
+
+2. Difficult Search System
+
+Search filters are limited.
+Example problems:
+cannot search by map
+cannot search by pollution level
+cannot search by project category easily.
+
+3. Complex Workflow
+
+Environmental clearance has many stages:
+state review
+central review
+committee review
+site inspection
+The portal does not explain these stages clearly.
+Users cannot understand:
+"What stage is my project in?"
+
+4. No Notification System
+
+Users cannot subscribe to:
+project updates
+clearance updates
+public hearing updates.
+This is a major missing feature.
+
+5. No Public Participation
+
+Citizens cannot:
+comment on projects
+report environmental violations
+participate in decisions.
+
+6. No AI Analysis
+
+The system only stores documents.
+It does not analyze:
+environmental impact
+deforestation risk
+pollution effects.
+
+7. Data Overload
+Large reports are uploaded as PDFs.
+Hard to analyze.
+
+Fraud Risk
+Companies may upload:
+fake reports
+manipulated data.
+Verification is difficult.
+
+. Environmental Monitoring
+After approval:
+monitoring is weak
+companies may violate rules.
+
+Data Analysis Difficulty
+Government has huge data but cannot easily analyze:
+deforestation trends
+pollution impact
+project clusters.
