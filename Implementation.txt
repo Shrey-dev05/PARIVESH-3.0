@@ -1,0 +1,76 @@
+Implementation Plan: PARIVESH 3.0 Next-Gen Workflow System
+1. Goal Description
+The objective is to design and develop PARIVESH 3.0, a robust, role-based web portal that facilitates the end-to-end lifecycle of environmental clearance applications. It improves transparency and efficiency without clashing with the existing PARIVESH 2.0 informational features. The system handles applications linearly from initial filing by a Project Proponent (PP) to the publication of the final Minutes of the Meeting (MoM) using strict Role-Based Access Control (RBAC).
+
+2. Technology Stack Recommendations
+To ensure a modern, secure, and highly responsive application that meets the evaluation criteria, the following stack is recommended:
+
+Frontend Framework: Next.js (React) for server-side rendering, SEO, and fast routing.
+Styling: Tailwind CSS or Vanilla CSS adhering to a strict Corporate Blue/White palette for a clean, professional interface.
+Backend Architecture: Node.js with Express.js (or Next.js API routes) to handle business logic and APIs.
+Database: PostgreSQL (with Prisma ORM) or MongoDB. A relational database like PostgreSQL is highly recommended to easily enforce strict RBAC, relational tracking of workflows, and data isolation.
+Authentication & Security: JSON Web Tokens (JWT) for secure, stateless role-based authentication.
+Document Generation Engine:
+docxtemplater or docx for generating Microsoft Word (.docx) files.
+puppeteer or pdfkit for generating PDF documents from templates.
+State Management: Redux Toolkit or Zustand for managing complex application states locally.
+3. High-Level Architecture & RBAC Design
+3.1 Role-Based Access Control (RBAC) Matrix
+The system relies on strong boundaries. API requests and UI routes must explicitly verify the user's role token before rendering or executing.
+
+Role	Domain Access	Key Capabilities	Data Isolation Rules
+Admin	admin.parivesh.in	Role assignment, provisioning master templates, managing sector parameters.	Has full administrative overview but cannot alter an applicant's submitted data.
+PP / RQP	portal.parivesh.in	Profile management, App Filing, Multi-step forms, Document uploads, Payments.	Strict Isolation: Can only view, create, and edit their own applications.
+Scrutiny Team	internal.parivesh.in	Verify documents, flag EDS, refer to meetings, trigger Auto-Gist.	Can only view applications submitted and assigned to their queue. Cannot alter final MoM.
+MoM Team	secretariat.parivesh.in	Edit Auto-Generated Gists, convert to formal MoM, finalize and lock MoMs.	Can only act on applications successfully "Referred" by Scrutiny. Cannot alter PP's original docs.
+4. Database Schema Design (Relational Approach)
+1. Users Table: id, name, email, password_hash, role (Enum: ADMIN, PP, SCRUTINY, MOM), organization_details. 2. MasterTemplates Table (Admin controlled): id, category (A, B1, B2), sector_type, template_content (HTML/JSON representation of the document structure). 3. Applications Table:
+
+id, pp_id (Foreign Key -> Users)
+category, sector
+status (Enum: Draft, Submitted, Under Scrutiny, EDS, Referred, MoM Generated, Finalized)
+project_details (JSON payload of the multi-step form)
+fee_status (Pending, Paid)
+payment_reference_id 4. Documents Table: id, application_id, document_type, file_url, uploaded_by. 5. Meetings / MoM Table: id, application_id, gist_content (Pre-filled via auto-gist), final_mom_content, locked_status (Boolean). 6. Audit Log Table: Critical for tracking workflow history (Who changed the status and when).
+5. End-to-End Workflow Implementation
+Step 1: Registration and Filing (PP/RQP)
+UI: A modern dashboard with a "New Application" wizard.
+Process: The PP fills out project details across multiple steps (General, Location, Parameters, Documents).
+Payment Sim: Integration of a mock UPI/QR gateway. Once the user clicks "Pay", an API validates the dummy transaction, updating fee_status to "Paid" and status to "Submitted".
+Step 2: Verification and Scrutiny (Scrutiny Team)
+UI: A Kanban-style or Table view showing incoming applications mapped to status === 'Submitted'.
+Process: The reviewer checks the data.
+EDS Path: If data is missing, the reviewer adds comments. The application status changes to EDS, notifying the PP to resubmit.
+Approval Path: If data is valid, the reviewer categorizes it. The system automatically fetches the correct MasterTemplate based on category/sector.
+Auto-Gist Generation: The backend script maps fields from project_details JSON directly into the template variables (e.g., {{project_name}}, {{investment_amount}}) and saves this text to the Meetings Table. Status updates to Referred.
+Step 3: Meeting Documentation (MoM Team)
+UI: A rich-text editor dashboard (e.g., Quill.js or Draft.js) pre-filled with the Auto-Gist.
+Process: The MoM team reviews the gist and types in actual meeting discussions/decisions.
+Finalization: Once complete, they click "Publish". The backend generates both PDF and DOCX files securely, saving them to a cloud bucket. The status locks to Finalized.
+6. Technical Implementation Details & API Guidelines
+6.1 Authentication Middleware
+Create an authMiddleware that extracts the JWT. Create advanced role middlewares like requireRole('SCRUTINY') to protect specific endpoints.
+
+javascript
+// Example Route Protection
+router.post('/flagEDS/:appId', requireRole('SCRUTINY'), flagEdsHandler);
+6.2 Frontend Routing & Protected Layouts
+Construct Next.js layouts for each domain/role. For instance, the MoM Team hits app/mom/dashboard. A layout wrapper verifies their role via an API call or JWT decoding before rendering the children components.
+
+6.3 Auto-Gist Automation Logic
+This is a critical evaluation criterion. Implement a robust templating substitution engine:
+
+Fetch the application's project_details.
+Fetch the assigned MasterTemplate.
+Use a library like Handlebars (hbs) or write a regex parser to find placeholders in the template and replace them with the actual JSON keys from the PP's application.
+6.4 Document Exporter (PDF & DOCX)
+When the MoM clicks "Publish":
+
+DOCX: Use docxtemplater to convert the HTML/Rich-Text output of the MoM Editor into a Word document.
+PDF: Use puppeteer to load a hidden print-friendly React component containing the finalized MoM text, returning a PDF buffer to the user.
+7. Next Steps & Development Sequencing
+Phase 1 (Database & Auth): Initialize the Database schemas and build out the distinct JWT login portals for Admin, PP, Scrutiny, and MoM.
+Phase 2 (PP Dashboard): Build the multi-step form and the mock UPI payment gateway.
+Phase 3 (Scrutiny & Auto-Gist): Develop the verification dashboard, EDS flagging logic, and the crucial string-substitution engine for the Meeting Gist.
+Phase 4 (MoM & Export): Integrate the rich text editor for the MoM team and build the backend PDF/DOCX exporters.
+Phase 5 (Polish): Apply the Corporate Blue/White UI/UX guidelines and conduct end-to-end user testing.
