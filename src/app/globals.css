@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #f8fafc;
+  --color-foreground: #0f172a;
+  
+  /* PARIVESH Corporate UX4G Palette */
+  --color-brand-blue: #0A3D62;
+  --color-brand-light-blue: #227093;
+  --color-brand-green: #218c53; /* Corresponds to CPC GREEN */
+  --color-brand-saffron: #f28c28;
+  
+  --font-sans: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base utility overrides */
+* {
+  box-sizing: border-box;
+}
