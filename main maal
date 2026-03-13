@@ -1,0 +1,89 @@
+| **Existing PARIVESH Portal (Current Website)**                                | **PARIVESH 3.0 (Hackathon Problem Statement)**                                                                   |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| Single-window portal for **environment, forest, wildlife and CRZ clearances** | Focused **workflow-driven portal specifically for environmental clearance meeting workflow**                     |
+| Allows **Project Proponent registration and application submission**          | Full **role-based workflow with strict RBAC (Admin, PP/RQP, Scrutiny Team, MoM Team)**                           |
+| Tracks proposal status (submitted, processing, approved etc.)                 | **Linear workflow enforcement:** Draft → Submitted → Under Scrutiny → EDS → Referred → MoM Generated → Finalized |
+| Provides **application submission and monitoring**                            | Complete **application lifecycle management including meeting documentation**                                    |
+| Document uploads available for proposals                                      | **Automated document generation system** (Gist → Minutes of Meeting)                                             |
+| Mostly **manual meeting preparation**                                         | **Auto-generation of Meeting Gist from application data**                                                        |
+| Meeting minutes may be uploaded manually                                      | **System-generated MoM after editing the Gist**                                                                  |
+| No clear internal workflow separation for teams                               | Dedicated dashboards for **Scrutiny Team and MoM Secretariat**                                                   |
+| Users can track project proposals and clearance status                        | Teams can **verify documents, flag missing documents (EDS)**                                                     |
+| Payment options exist but not fully modernized                                | **QR Code / UPI payment integration simulation**                                                                 |
+| Limited template automation                                                   | **Admin-controlled master templates for Gist documents**                                                         |
+| Information-heavy interface, difficult navigation                             | **Clean, modern UI/UX (Corporate blue/white)**                                                                   |
+| Data visible but organization sometimes inconsistent                          | **Strict data isolation and role-based access security**                                                         |
+| Focus mainly on **submission and approval process**                           | Focus on **decision-making workflow and meeting documentation process**                                          |
+| Portal contains large database of project proposals and reports               | System designed as **CMS-based structured workflow system**                                                      |
+
+
+
+                    ┌──────────────────────────────┐
+                    │        Web Browser           │
+                    │ (Project Proponent / Admin / │
+                    │  Scrutiny Team / MoM Team)   │
+                    └──────────────┬───────────────┘
+                                   │
+                                   │ HTTPS Requests
+                                   │
+                    ┌──────────────▼───────────────┐
+                    │        Frontend Layer        │
+                    │  (React / Next.js / HTML UI) │
+                    │                              │
+                    │  • Role Based Dashboards     │
+                    │  • Application Forms         │
+                    │  • Workflow Visualization    │
+                    │  • Map Dashboard             │
+                    │  • Chatbot Interface         │
+                    └──────────────┬───────────────┘
+                                   │
+                                   │ API Calls
+                                   │
+                    ┌──────────────▼───────────────┐
+                    │        Backend Layer         │
+                    │ (Node.js / Flask / Express)  │
+                    │                              │
+                    │ • Authentication System      │
+                    │ • RBAC Access Control        │
+                    │ • Application Workflow       │
+                    │ • Scrutiny Processing        │
+                    │ • MoM Management             │
+                    │ • Payment Verification       │
+                    │ • Document Processing        │
+                    │ • Chatbot API                │
+                    └──────────────┬───────────────┘
+                                   │
+                                   │
+        ┌───────────────┬──────────┴───────────┬───────────────┐
+        │               │                      │               │
+        ▼               ▼                      ▼               ▼
+
+┌──────────────┐  ┌───────────────┐   ┌────────────────┐   ┌───────────────┐
+│   Database   │  │ File Storage  │   │ Document Engine │   │ Payment Mock  │
+│ (MongoDB /   │  │ (Cloud /      │   │ (DOCX + PDF     │   │ (UPI / QR     │
+│ Firebase)    │  │ Local Storage)│   │ Generator)      │   │ Simulation)   │
+│              │  │               │   │                 │   │               │
+│ • Users      │  │ • Uploaded    │   │ • Gist Template │   │ • Payment     │
+│ • Roles      │  │   Documents   │   │ • MoM Generator │   │   Validation  │
+│ • Projects   │  │ • Reports     │   │ • PDF Export    │   │               │
+│ • Workflow   │  │               │   │                 │   │               │
+│ • Status     │  │               │   │                 │   │               │
+└──────────────┘  └───────────────┘   └────────────────┘   └───────────────┘
+
+
+                         ┌────────────────────────┐
+                         │   AI Chatbot Service   │
+                         │                        │
+                         │ • Portal Assistance    │
+                         │ • Document Guidance    │
+                         │ • Application Help     │
+                         └────────────────────────┘
+
+
+                         ┌────────────────────────┐
+                         │  Map Visualization API │
+                         │                        │
+                         │ • Leaflet / Mapbox     │
+                         │ • Project Location     │
+                         │ • Environmental Zones  │
+                         └────────────────────────┘
