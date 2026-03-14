@@ -1,0 +1,64 @@
+------------------------------------------------
+
+Application: ABC Mining Project
+Status: Under Scrutiny
+
+------------------------------------------------
+
+Workflow Progress
+Draft → Submitted → Scrutiny → EDS → Referred
+
+------------------------------------------------
+
+Case Timeline
+
+
+
+14 Mar 10:12 | Applicant
+Application submitted
+Documents uploaded:
+EIA_Report_v1.pdf
+
+------------------------------------------------
+
+14 Mar 13:30 | Scrutiny Department
+Issue Raised:
+Groundwater report missing
+
+------------------------------------------------
+
+14 Mar 15:05 | Applicant Response
+Uploaded updated document
+
+Previous File:
+EIA_Report_v1.pdf
+
+Updated File:
+EIA_Report_v2.pdf
+
+------------------------------------------------
+
+15 Mar 11:00 | Scrutiny Officer Rahul Verma
+Verification completed
+
+------------------------------------------------
+
+16 Mar 16:00 | MoM Secretariat
+Meeting held
+
+MoM Document Generated
+MoM_v1.pdf
+
+
+
+
+
+backend logic
+
+Action occurs
+↓
+Save to timeline_events
+↓
+Update application status
+↓
+If file uploaded → create new version
