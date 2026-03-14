@@ -22,8 +22,8 @@ export const initialUsers: User[] = [
   },
   {
     id: 'U-MOM-01',
-    name: 'MoM Secretary',
-    email: 'mom@parivesh.nic.in',
+    name: 'Amit Verma',
+    email: 'mom@parivesh.gov.in',
     role: 'MOM',
   }
 ];
