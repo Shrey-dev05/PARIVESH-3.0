@@ -48,3 +48,17 @@ Meeting held
 
 MoM Document Generated
 MoM_v1.pdf
+
+
+
+
+
+backend logic
+
+Action occurs
+↓
+Save to timeline_events
+↓
+Update application status
+↓
+If file uploaded → create new version
